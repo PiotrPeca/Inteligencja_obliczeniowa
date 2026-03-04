@@ -47,3 +47,5 @@ nosetests.xml
 # virtual env
 venv/
 .vscode
+
+*.pdf
