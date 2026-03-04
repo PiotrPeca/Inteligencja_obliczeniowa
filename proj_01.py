@@ -23,17 +23,13 @@ class ClumsyConnectFour(ConnectFour):
 		super().make_move(actual_column)
 
 	def _resolve_column(self, intended_column: int) -> int:
-		candidates = {
-			intended_column - 1,
-			intended_column,
-			intended_column + 1,
-		}
-		candidates = [
-			c for c in candidates if 0 <= c <= 6 and self.board[:, c].min() == 0
-		]
-		if not candidates:
-			raise ValueError("No available columns after clumsy drift.")
-		return self.rng.choice(candidates)
+		if self.rng.random() < 0.2:
+			neighbors = [intended_column - 1, intended_column + 1]
+			self.rng.shuffle(neighbors)
+			for col in neighbors:
+				if 0 <= col <= 6 and self.board[:, col].min() == 0:
+					return col
+		return intended_column
 
 
 def _play_single_game(
